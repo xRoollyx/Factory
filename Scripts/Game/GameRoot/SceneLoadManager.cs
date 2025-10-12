@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using myProject.Scripts.BaCon.Scripts;
 using myProject.Scripts.Common;
-using myProject.Scripts.Game.GameRoot;
 using myProject.Scripts.Game.State.Providers;
 using myProject.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace myProject{
+namespace myProject.Scripts.Game.GameRoot{
     public class SceneLoadManager{
         private readonly Coroutines _coroutines;
         private readonly UiRootView _uiRootView;
