@@ -35,10 +35,11 @@ namespace myProject.Scripts.Game.GameRoot{
             Object.DontDestroyOnLoad(_uiRootView.gameObject);
             _rootContainer.RegisterInstance(_uiRootView);
 
-            _rootContainer.RegisterFactory(c => new SomeCommonService()).AsSingle();
-
             var gameStateProvider = new PlayerPrefsGameStateProvider();
+            gameStateProvider.LoadSettingsState();
             _rootContainer.RegisterInstance<IGameStateProvider>(gameStateProvider);
+            
+            _rootContainer.RegisterFactory(c => new SomeCommonService()).AsSingle();
         }
 
         private void RunGame(){
@@ -70,9 +71,10 @@ namespace myProject.Scripts.Game.GameRoot{
             yield return LoadScene(Scenes.GAMEPLAY);
 
             yield return new WaitForSeconds(0.01f);
-            
-            _rootContainer.Resolve<IGameStateProvider>().LoadGameState();
-            
+
+            var isGameStateLoaded = false;
+            _rootContainer.Resolve<IGameStateProvider>().LoadGameState().Subscribe(_ => isGameStateLoaded = true);
+            yield return new WaitUntil(() => isGameStateLoaded);
             
             var gameplayEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
             var gameplayContainer = _cachedSceneContainer = new DiContainer(_rootContainer);

@@ -1,9 +1,17 @@
-﻿namespace myProject.Scripts.Game.State.Providers{
+﻿using myProject.Scripts.Game.State.Root;
+using R3;
+
+namespace myProject.Scripts.Game.State.Providers{
     public interface IGameStateProvider{
-        public GameState gameStateOrigin{ get; }
+        public GameStateProxy GameState{ get; }
+        public GameSettingsStateProxy SettingsState{ get; }
         
-        public GameState LoadGameState();
-        public bool SaveGameState();
-        public bool ResetGameState();
+        public Observable<GameStateProxy> LoadGameState();
+        
+        public Observable<GameSettingsStateProxy> LoadSettingsState();
+        public Observable<bool> SaveGameState();
+        public Observable<bool> SaveSettingsState();
+        public Observable<bool> ResetGameState();
+        public Observable<bool> ResetSettingsState();
     }
 }
