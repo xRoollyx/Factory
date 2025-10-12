@@ -32,14 +32,5 @@
             direction += 2;
             return direction <= Direction.Nw ? direction : (direction - 8);
         }
-
-        public static Direction[] Size3X3(this Direction direction){
-            Direction[] size3X3 = new Direction[8];
-            for (int i = 0; i < 8; i++){
-                size3X3[i] = (Direction)i;
-            }
-
-            return size3X3;
-        }
     }
 }

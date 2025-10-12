@@ -11,10 +11,6 @@ namespace myProject{
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         //запускаеться автоматически до загрузки сцены
         public static void AutoStartGame(){
-            // для мобильной платформы
-            //Application.targetFrameRate = 120;
-            //Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
             _instance = new GameEntryPoint();
             _instance.RunGame();
         }
@@ -31,9 +27,7 @@ namespace myProject{
             var sceneLoadManager = new SceneLoadManager(_rootContainer, _coroutines, _uiRootView);
             _rootContainer.RegisterInstance(sceneLoadManager);
 
-
             var gameStateProvider = new PlayerPrefsGameStateProvider();
-
             _rootContainer.RegisterInstance<IGameStateProvider>(gameStateProvider);
         }
 
