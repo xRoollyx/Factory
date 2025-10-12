@@ -1,10 +1,13 @@
+using myProject.Scripts.BaCon.Scripts;
+using myProject.Scripts.Game.State.Providers;
+using myProject.Scripts.Utility;
 using UnityEngine;
 
-namespace myProject{
+namespace myProject.Scripts.Game.GameRoot{
     public class GameEntryPoint{
         private static GameEntryPoint _instance;
-        private Coroutines _coroutines;
-        private UiRootView _uiRootView;
+        private  Coroutines _coroutines;
+        private  UiRootView _uiRootView;
         private readonly DiContainer _rootContainer = new();
         
 

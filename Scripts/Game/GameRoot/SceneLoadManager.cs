@@ -1,4 +1,9 @@
 ﻿using System.Collections;
+using myProject.Scripts.BaCon.Scripts;
+using myProject.Scripts.Common;
+using myProject.Scripts.Game.GameRoot;
+using myProject.Scripts.Game.State.Providers;
+using myProject.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -45,11 +50,11 @@ namespace myProject{
             yield return new WaitForSeconds(0.01f);
             
             _rootContainer.Resolve<IGameStateProvider>().LoadGameState();
-            var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
+            var gameplayEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
             var gameplayContainer = _cachedSceneContainer = new DiContainer(_rootContainer); // создаем новы контейнер и передаем в гемплей
-            sceneEntryPoint.Run(gameplayContainer);
+            gameplayEntryPoint.Run(gameplayContainer);
 
-            sceneEntryPoint.GoToMainMenuSceneRequested += () => {
+            gameplayEntryPoint.GoToMainMenu += () => {
                 _coroutines.StartCoroutine(LoadAndStartMainMenu());
             };
 
@@ -69,8 +74,8 @@ namespace myProject{
             var mainMenuEntryPoint = Object.FindFirstObjectByType<MainMenuEnterPoint>();
             var mainMenuContainer = _cachedSceneContainer = new DiContainer(_rootContainer);
             mainMenuEntryPoint.Run(mainMenuContainer);
-
-            mainMenuEntryPoint.GoToGameplaySceneRequested += () => {
+            
+            mainMenuEntryPoint.GoToGameplay += () => {
                 _coroutines.StartCoroutine(LoadAndStartGameplay());
             };
             

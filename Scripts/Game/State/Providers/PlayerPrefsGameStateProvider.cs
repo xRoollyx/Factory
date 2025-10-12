@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace myProject{
+namespace myProject.Scripts.Game.State.Providers{
     public class PlayerPrefsGameStateProvider: IGameStateProvider{
         private const string KEY_PREFS_STATE = nameof(KEY_PREFS_STATE);
         

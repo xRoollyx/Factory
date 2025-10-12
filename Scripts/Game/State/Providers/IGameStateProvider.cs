@@ -1,4 +1,4 @@
-﻿namespace myProject{
+﻿namespace myProject.Scripts.Game.State.Providers{
     public interface IGameStateProvider{
         public GameState gameStateOrigin{ get; }
         

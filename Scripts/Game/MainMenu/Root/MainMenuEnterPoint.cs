@@ -1,22 +1,28 @@
 ﻿using System;
+using myProject.Scripts.BaCon.Scripts;
+using myProject.Scripts.Game.Gameplay.Root.View;
+using myProject.Scripts.Game.GameRoot;
 using myProject.Scripts.Game.MainMenu.Root.View;
 using UnityEngine;
 
 namespace myProject{
     public class MainMenuEnterPoint : MonoBehaviour{
-        private  DiContainer _mainMenuContainer;
-        
+        public event Action GoToGameplay;
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
         
-        public event Action GoToGameplaySceneRequested;
-        
+        private  DiContainer _mainMenuContainer;
         public void Run(DiContainer container){
             _mainMenuContainer = container;
             
-            var uiScene = Instantiate(_sceneUIRootPrefab);
-            container.Resolve<UiRootView>().AttachSceneUI(uiScene.gameObject);
-            
-            uiScene.GoToGameplayButtonClicked += () => GoToGameplaySceneRequested?.Invoke();
+            var uiMainMenu = Instantiate(_sceneUIRootPrefab);
+            _mainMenuContainer.Resolve<UiRootView>().AttachSceneUI(uiMainMenu.gameObject);
+
+            uiMainMenu.GoToGameplayButtonClicked += () => {
+                GoToGameplay?.Invoke();
+            };
+
         }
+        
+       
     }
 }
