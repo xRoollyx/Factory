@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace myProject
+namespace myProject.Scripts.BaCon.Scripts
 {
     public class DiContainer : IDisposable
     {

@@ -1,24 +1,25 @@
 ﻿using UnityEngine;
 
-namespace myProject{
+namespace myProject.Scripts.Game.State.Providers{
     public class PlayerPrefsGameStateProvider: IGameStateProvider{
         private const string KEY_PREFS_STATE = nameof(KEY_PREFS_STATE);
         
         
         public GameState gameStateOrigin{ get; private set; }
-        //public GameStateProxy gameState { get; private set; }
+        
         
         public GameState LoadGameState(){
             if (!PlayerPrefs.HasKey(KEY_PREFS_STATE)){
-                gameStateOrigin = new CreateGameStateFromSettings().GetNewGameState();
+                
                 Debug.Log("GameState created from settings" + JsonUtility.ToJson(gameStateOrigin, true));
+                
                 SaveGameState();
             }
             else{
                 var json = PlayerPrefs.GetString(KEY_PREFS_STATE);
                 gameStateOrigin = JsonUtility.FromJson<GameState>(json);
 
-                //Debug.Log("Game State Loaded: " + json);
+                Debug.Log("Game State Loaded: " + json);
             }
 
             return gameStateOrigin;
@@ -33,15 +34,7 @@ namespace myProject{
         }
 
         public bool ResetGameState(){
-            gameStateOrigin = CreatGameStateFromSettings();
-            SaveGameState();
-
             return true;
-        }
-        
-        private GameState CreatGameStateFromSettings(){
-            gameStateOrigin = new GameState();
-            return gameStateOrigin;
         }
     }
 }

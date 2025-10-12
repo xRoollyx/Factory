@@ -1,8 +1,12 @@
 ﻿using System.Collections;
+using myProject.Scripts.BaCon.Scripts;
+using myProject.Scripts.Common;
+using myProject.Scripts.Game.State.Providers;
+using myProject.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace myProject{
+namespace myProject.Scripts.Game.GameRoot{
     public class SceneLoadManager{
         private readonly Coroutines _coroutines;
         private readonly UiRootView _uiRootView;
@@ -45,10 +49,13 @@ namespace myProject{
             yield return new WaitForSeconds(0.01f);
             
             _rootContainer.Resolve<IGameStateProvider>().LoadGameState();
-            var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
+            var gameplayEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
             var gameplayContainer = _cachedSceneContainer = new DiContainer(_rootContainer); // создаем новы контейнер и передаем в гемплей
-            sceneEntryPoint.Run(gameplayContainer);
-            yield return new WaitForSeconds(0.01f);
+            gameplayEntryPoint.Run(gameplayContainer);
+
+            gameplayEntryPoint.GoToMainMenu += () => {
+                _coroutines.StartCoroutine(LoadAndStartMainMenu());
+            };
 
 
             _uiRootView.HideLoadingScreen();
@@ -66,6 +73,10 @@ namespace myProject{
             var mainMenuEntryPoint = Object.FindFirstObjectByType<MainMenuEnterPoint>();
             var mainMenuContainer = _cachedSceneContainer = new DiContainer(_rootContainer);
             mainMenuEntryPoint.Run(mainMenuContainer);
+            
+            mainMenuEntryPoint.GoToGameplay += () => {
+                _coroutines.StartCoroutine(LoadAndStartGameplay());
+            };
             
             _uiRootView.HideLoadingScreen();
         }

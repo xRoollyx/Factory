@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace myProject{
+namespace myProject.Scripts.Game.GameRoot{
     public class UiRootView : MonoBehaviour{
         [SerializeField] private GameObject loadingScreen;
         [SerializeField] private Transform uiSceneContainer;
