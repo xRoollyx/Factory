@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace myProject{
+namespace myProject.Scripts.Game.State{
     [Serializable]
     public class GameState{
         

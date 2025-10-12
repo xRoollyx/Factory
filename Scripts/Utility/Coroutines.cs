@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace myProject{
+namespace myProject.Scripts.Utility{
     public class Coroutines : MonoBehaviour {
         
     }

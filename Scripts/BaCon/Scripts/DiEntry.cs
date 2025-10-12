@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace myProject
+namespace myProject.Scripts.BaCon.Scripts
 {
     public abstract class DiEntry : IDisposable
     {

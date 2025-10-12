@@ -1,4 +1,4 @@
-﻿namespace myProject{
+﻿namespace myProject.Scripts.Utility{
     public enum Direction{
         N,
         Ne,
