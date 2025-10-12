@@ -1,5 +1,4 @@
-﻿using System;
-using myProject.Scripts.BaCon.Scripts;
+﻿using myProject.Scripts.BaCon.Scripts;
 using myProject.Scripts.Game.Gameplay.Root;
 using myProject.Scripts.Game.Gameplay.Root.View;
 using myProject.Scripts.Game.GameRoot;
@@ -14,11 +13,20 @@ namespace myProject{
         
 
         private DiContainer _gameplayContainer;
-        public Observable<GameplayExitParams> Run(DiContainer container, GameplayEnterParams enterParams){
-            _gameplayContainer = container;
+        public Observable<GameplayExitParams> Run(DiContainer gameplayContainer, GameplayEnterParams enterParams){
             
+            GameplayRegistrations.Register(gameplayContainer, enterParams);
+            var gameplayViewModelsContainer = new DiContainer(gameplayContainer);
+            GameplayViewModelsRegistrations.Register(gameplayViewModelsContainer);
+            
+            //для теста
+            gameplayViewModelsContainer.Resolve<UIGameplayRootViewModel>();
+            gameplayViewModelsContainer.Resolve<WorldGameplayRootViewModel>();
+            
+
+            var uiRoot = gameplayContainer.Resolve<UiRootView>();
             var uiScene = Instantiate(_sceneUIRootPrefab);
-            _gameplayContainer.Resolve<UiRootView>().AttachSceneUI(uiScene.gameObject);
+            uiRoot.AttachSceneUI(uiScene.gameObject);
 
             var exitSceneSignalSubj = new  Subject<Unit>();
             

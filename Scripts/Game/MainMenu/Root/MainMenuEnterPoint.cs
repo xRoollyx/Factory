@@ -11,17 +11,24 @@ using Random = UnityEngine.Random;
 
 namespace myProject.Scripts.Game.MainMenu.Root{
     public class MainMenuEnterPoint : MonoBehaviour{
-        private  DiContainer _mainMenuContainer;
+        
 
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
         
         
        
-        public Observable<MainMenuExitParams> Run(DiContainer container, MainMenuEnterParams enterParams){
-            _mainMenuContainer = container;
+        public Observable<MainMenuExitParams> Run(DiContainer mainMenuContainer, MainMenuEnterParams enterParams){
             
+            MainMenuRegistrations.Register(mainMenuContainer, enterParams);
+            var mainMenuViewModelsContainer = new DiContainer(mainMenuContainer);
+            MainMenuViewModelsRegistrations.Register(mainMenuViewModelsContainer);
+            
+            // для теста
+            mainMenuViewModelsContainer.Resolve<UIMainMenuRootViewModel>();
+
+            var uiRoot = mainMenuContainer.Resolve<UiRootView>();
             var uiScene = Instantiate(_sceneUIRootPrefab);
-            _mainMenuContainer.Resolve<UiRootView>().AttachSceneUI(uiScene.gameObject);
+            uiRoot.AttachSceneUI(uiScene.gameObject);
             
             var exitSignalSubj = new Subject<Unit>();
             uiScene.Bind(exitSignalSubj);
