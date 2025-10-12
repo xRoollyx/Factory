@@ -1,9 +1,11 @@
-﻿namespace myProject.Scripts.Game.Gameplay.Root{
-    public class GameplayExitParams{
-        public MainMenuExitParams MainMenuExitParams{ get; }
+﻿using myProject.Scripts.Game.MainMenu.Root;
 
-        public GameplayExitParams(MainMenuExitParams mainMenuExitParams){
-            MainMenuExitParams = mainMenuExitParams;
+namespace myProject.Scripts.Game.Gameplay.Root{
+    public class GameplayExitParams{
+        public MainMenuEnterParams mainMenuEnterParams{ get; }
+
+        public GameplayExitParams(MainMenuEnterParams mainMenuEnterParams){
+            this.mainMenuEnterParams = mainMenuEnterParams;
         }
     }
 }

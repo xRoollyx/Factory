@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using myProject.Scripts.BaCon.Scripts;
 using myProject.Scripts.Common;
+using myProject.Scripts.Game.Gameplay.Root;
 using myProject.Scripts.Game.MainMenu.Root;
 using myProject.Scripts.Game.State.Providers;
 using myProject.Scripts.Utility;
+using R3;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,7 +26,8 @@ namespace myProject.Scripts.Game.GameRoot{
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
             if (sceneName == Scenes.GAMEPLAY){
-                _coroutines.StartCoroutine(LoadAndStartGameplay());
+                var enterParams = new GameplayEnterParams("ddd.save", 1);
+                _coroutines.StartCoroutine(LoadAndStartGameplay(enterParams));
                 return;
             }
 
@@ -40,7 +43,7 @@ namespace myProject.Scripts.Game.GameRoot{
             _coroutines.StartCoroutine(LoadAndStartMainMenu());
         }
 
-        private IEnumerator LoadAndStartGameplay(){
+        private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams){
             _uiRootView.ShowLoadingScreen();
             _cachedSceneContainer?.Dispose();
 
@@ -50,20 +53,18 @@ namespace myProject.Scripts.Game.GameRoot{
             yield return new WaitForSeconds(0.01f);
             
             _rootContainer.Resolve<IGameStateProvider>().LoadGameState();
-            var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
-            var gameplayContainer = _cachedSceneContainer = new DiContainer(_rootContainer); // создаем новы контейнер и передаем в гемплей
-            sceneEntryPoint.Run(gameplayContainer);
             
-
-            sceneEntryPoint.GoToMainMenuSceneRequested += () => {
-                _coroutines.StartCoroutine(LoadAndStartMainMenu());
-            };
-
-
+            
+            var gameplayEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
+            var gameplayContainer = _cachedSceneContainer = new DiContainer(_rootContainer); // создаем новы контейнер и передаем в гемплей
+            gameplayEntryPoint.Run(gameplayContainer, enterParams).Subscribe(gameplayExitParams => {
+                _coroutines.StartCoroutine(LoadAndStartMainMenu(gameplayExitParams.mainMenuEnterParams));
+            });
+            
             _uiRootView.HideLoadingScreen();
         }
 
-        private IEnumerator LoadAndStartMainMenu(){
+        private IEnumerator LoadAndStartMainMenu(MainMenuEnterParams enterParams = null){
             _uiRootView.ShowLoadingScreen();
             _cachedSceneContainer?.Dispose();
 
@@ -74,25 +75,18 @@ namespace myProject.Scripts.Game.GameRoot{
 
             var mainMenuEntryPoint = Object.FindFirstObjectByType<MainMenuEnterPoint>();
             var mainMenuContainer = _cachedSceneContainer = new DiContainer(_rootContainer);
-            mainMenuEntryPoint.Run(mainMenuContainer);
-
-
-            mainMenuEntryPoint.GoToGameplayButtonClicked += () => {
-                _coroutines.StartCoroutine(LoadAndStartGameplay());
-            };
+            mainMenuEntryPoint.Run(mainMenuContainer, enterParams).Subscribe(mainMenuExitParams => {
+                var targetSceneName = mainMenuExitParams.TargetSceneEnterParams.SceneName;
+                if (targetSceneName == Scenes.GAMEPLAY){
+                    _coroutines.StartCoroutine(LoadAndStartGameplay(mainMenuExitParams.TargetSceneEnterParams.As<GameplayEnterParams>()));
+                }
+            });
+            
             _uiRootView.HideLoadingScreen();
         }
 
         private IEnumerator LoadScene(string sceneName){
             yield return SceneManager.LoadSceneAsync(sceneName);
-        }
-
-        public void LoadMainMenuScene(){
-            _coroutines.StartCoroutine(LoadAndStartMainMenu());
-        }
-        
-        public void LoadGameplayScene(){
-            _coroutines.StartCoroutine(LoadAndStartGameplay());
         }
     }
 }
