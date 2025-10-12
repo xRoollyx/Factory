@@ -48,7 +48,10 @@ namespace myProject{
             var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
             var gameplayContainer = _cachedSceneContainer = new DiContainer(_rootContainer); // создаем новы контейнер и передаем в гемплей
             sceneEntryPoint.Run(gameplayContainer);
-            yield return new WaitForSeconds(0.01f);
+
+            sceneEntryPoint.GoToMainMenuSceneRequested += () => {
+                _coroutines.StartCoroutine(LoadAndStartMainMenu());
+            };
 
 
             _uiRootView.HideLoadingScreen();
@@ -66,6 +69,10 @@ namespace myProject{
             var mainMenuEntryPoint = Object.FindFirstObjectByType<MainMenuEnterPoint>();
             var mainMenuContainer = _cachedSceneContainer = new DiContainer(_rootContainer);
             mainMenuEntryPoint.Run(mainMenuContainer);
+
+            mainMenuEntryPoint.GoToGameplaySceneRequested += () => {
+                _coroutines.StartCoroutine(LoadAndStartGameplay());
+            };
             
             _uiRootView.HideLoadingScreen();
         }
