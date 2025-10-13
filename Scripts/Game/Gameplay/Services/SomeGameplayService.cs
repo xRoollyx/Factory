@@ -17,13 +17,13 @@ namespace myProject.Scripts.Game.Gameplay.Services{
             _someCommonService = someCommonService;
             Debug.Log(GetType().Name + "has been created");
             
-            gameState.Buildings.ForEach(building => Debug.Log("building " + building.TypeId));
-            gameState.Buildings.ObserveAdd().Subscribe(e =>Debug.Log("building added " +e.Value.TypeId));
-            gameState.Buildings.ObserveRemove().Subscribe(e =>Debug.Log("building removed " +e.Value.TypeId));
-            
-            AddBuilding("VASYAN");
-            AddBuilding("STAS");
-            RemoveBuilding("VASYAN");
+            // gameState.Buildings.ForEach(building => Debug.Log("building " + building.TypeId));
+            // gameState.Buildings.ObserveAdd().Subscribe(e =>Debug.Log("building added " +e.Value.TypeId));
+            // gameState.Buildings.ObserveRemove().Subscribe(e =>Debug.Log("building removed " +e.Value.TypeId));
+            //
+            // AddBuilding("VASYAN");
+            // AddBuilding("STAS");
+            // RemoveBuilding("VASYAN");
         }
 
         private void AddBuilding(string typeId){
