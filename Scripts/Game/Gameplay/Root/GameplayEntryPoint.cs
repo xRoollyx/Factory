@@ -2,6 +2,7 @@
 using myProject.Scripts.Game.Gameplay.Commands;
 using myProject.Scripts.Game.Gameplay.Root;
 using myProject.Scripts.Game.Gameplay.Root.View;
+using myProject.Scripts.Game.Gameplay.Services;
 using myProject.Scripts.Game.GameRoot;
 using myProject.Scripts.Game.MainMenu.Root;
 using myProject.Scripts.Game.State.cmd;
@@ -34,14 +35,8 @@ namespace myProject{
                           + building.Position);
             });
             
-            var cmd = new CommandProcessor(gameStateProvider);
-            cmd.RegisterHandler(new CmdPlaceBuildingHandler(gameStateProvider.GameState));
-
-            cmd.Process(new CmdPlaceBuilding("Vasan", new Vector3Int(Random.Range(-5,5),0,Random.Range(-5,5))));
-            cmd.Process(new CmdPlaceBuilding("Stasan", new Vector3Int(Random.Range(-5,5),0,Random.Range(-5,5))));
-            
-            gameplayViewModelsContainer.Resolve<UIGameplayRootViewModel>();
-            gameplayViewModelsContainer.Resolve<WorldGameplayRootViewModel>();
+            var buildingsService = gameplayContainer.Resolve<BuildingsService>();
+            buildingsService.PlaceBuilding("Vasan", new Vector3Int(Random.Range(-5, 5), 0, Random.Range(-5, 5)));
             
             // end
             var uiRoot = gameplayContainer.Resolve<UiRootView>();
