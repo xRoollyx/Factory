@@ -56,7 +56,7 @@ namespace myProject.Scripts.Game.State.Providers{
         }
         
         public Observable<bool> SaveSettingsState(){
-            var json = PlayerPrefs.GetString(GAME_SETTINGS_STATE_KEY);
+            var json = JsonUtility.ToJson(_gameSettingsOrigin, true);
             PlayerPrefs.SetString(GAME_SETTINGS_STATE_KEY, json);
             
             return Observable.Return(true);
@@ -79,12 +79,12 @@ namespace myProject.Scripts.Game.State.Providers{
         private GameStateProxy CreateGameStateFromSettings(){
             _gameStateOrigin = new GameState{
                 Buildings = new List<BuildingEntity>{
-                    new(){
+                    /*new(){
                         TypeId = "pro100"
                     },
                     new (){
                         TypeId = "STARIK"
-                    }
+                    }*/
 
                 }
             };

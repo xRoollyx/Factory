@@ -37,7 +37,7 @@ namespace myProject{
             });
             
             var buildingsService = gameplayContainer.Resolve<BuildingsService>();
-            buildingsService.PlaceBuilding("Vasan", new Vector3Int(Random.Range(-5, 5), 0, Random.Range(-5, 5)));
+            buildingsService.PlaceBuilding("dummy", new Vector3Int(Random.Range(-5, 5), 0, Random.Range(-5, 5)));
             
             // end
             

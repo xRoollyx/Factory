@@ -4,11 +4,10 @@ using myProject.Scripts.Game.Gameplay.View.Buildings;
 using ObservableCollections;
 using R3;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace myProject.Scripts.Game.Gameplay.Root.View{
     public class WorldGameplayRootBinder : MonoBehaviour{
-
-        [SerializeField] private BuildingBinder _prefabBuilding;
         
         private readonly Dictionary<int, BuildingBinder> _createdBuildingsMap = new ();
         
@@ -32,7 +31,14 @@ namespace myProject.Scripts.Game.Gameplay.Root.View{
         }
 
         private void CreateBuilding(BuildingViewModel buildingViewModel){
-            var createdBuilding = Instantiate(_prefabBuilding);
+
+            var buildingLevel = Random.Range(1, 4);
+            var buildingType = buildingViewModel.TypeId;
+            var prefabBuildingLevelPath =  $"Prefabs/Gameplay/World/Buildings/Building_{buildingType}_{buildingLevel}";
+            
+            var buildingPrefab = Resources.Load<BuildingBinder>(prefabBuildingLevelPath);
+            
+            var createdBuilding = Instantiate(buildingPrefab);
             createdBuilding.Bind(buildingViewModel);
             
             _createdBuildingsMap[buildingViewModel.BuildingEntityId] =  createdBuilding;

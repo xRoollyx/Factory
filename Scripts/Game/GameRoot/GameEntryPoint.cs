@@ -4,6 +4,7 @@ using myProject.Scripts.Common;
 using myProject.Scripts.Game.Gameplay.Root;
 using myProject.Scripts.Game.GameRoot.Services;
 using myProject.Scripts.Game.MainMenu.Root;
+using myProject.Scripts.Game.Settings;
 using myProject.Scripts.Game.State.Providers;
 using myProject.Scripts.Utility;
 using R3;
@@ -35,6 +36,9 @@ namespace myProject.Scripts.Game.GameRoot{
             Object.DontDestroyOnLoad(_uiRootView.gameObject);
             _rootContainer.RegisterInstance(_uiRootView);
 
+            var settingsProvider = new SettingsProvider();
+            _rootContainer.RegisterInstance<ISettingsProvider>(settingsProvider);
+
             var gameStateProvider = new PlayerPrefsGameStateProvider();
             gameStateProvider.LoadSettingsState();
             _rootContainer.RegisterInstance<IGameStateProvider>(gameStateProvider);
@@ -42,8 +46,10 @@ namespace myProject.Scripts.Game.GameRoot{
             _rootContainer.RegisterFactory(c => new SomeCommonService()).AsSingle();
         }
 
-        private void RunGame(){
-            #if UNITY_EDITOR
+        private async void RunGame(){
+            await _rootContainer.Resolve<ISettingsProvider>().LoadGameSettings();
+            
+#if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
             if (sceneName == Scenes.GAMEPLAY){
                 var enterParams = new GameplayEnterParams("ddd.save", 1);
