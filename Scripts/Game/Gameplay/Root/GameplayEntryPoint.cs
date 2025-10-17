@@ -14,6 +14,7 @@ using UnityEngine;
 namespace myProject{
     public class GameplayEntryPoint : MonoBehaviour{
         [SerializeField] private UIGameplayRootBinder _sceneUIRootPrefab;
+        [SerializeField] private WorldGameplayRootBinder _worldRootBinder;
         
         
 
@@ -39,6 +40,12 @@ namespace myProject{
             buildingsService.PlaceBuilding("Vasan", new Vector3Int(Random.Range(-5, 5), 0, Random.Range(-5, 5)));
             
             // end
+            
+            _worldRootBinder.Bind(gameplayViewModelsContainer.Resolve<WorldGameplayRootViewModel>());
+
+            gameplayViewModelsContainer.Resolve<UIGameplayRootViewModel>();
+            
+            
             var uiRoot = gameplayContainer.Resolve<UiRootView>();
             var uiScene = Instantiate(_sceneUIRootPrefab);
             uiRoot.AttachSceneUI(uiScene.gameObject);
