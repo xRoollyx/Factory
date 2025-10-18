@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using myProject.Scripts.Game.State.Buildings;
+using myProject.Scripts.Game.State.Maps;
 
 namespace myProject.Scripts.Game.State.Root{
     [Serializable]
     public class GameState{
         public int GlobalEntityId;
-        public List<BuildingEntity> Buildings;
+        public int CurrentMapId;
+        public List<MapState> Maps;
+
+        public int CreateEntityId(){
+            return GlobalEntityId++;
+        }
     }
 
 }

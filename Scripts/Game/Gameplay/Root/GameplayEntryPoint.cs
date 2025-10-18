@@ -25,22 +25,6 @@ namespace myProject{
             var gameplayViewModelsContainer = new DiContainer(gameplayContainer);
             GameplayViewModelsRegistrations.Register(gameplayViewModelsContainer);
             
-            //для теста
-            var gameStateProvider = gameplayContainer.Resolve<IGameStateProvider>();
-
-            gameStateProvider.GameState.Buildings.ObserveAdd().Subscribe(e => {
-                var building = e.Value;
-                Debug.Log("Building placed: " 
-                          + building.TypeId + "Id: "
-                          + building.Id + "Position: "
-                          + building.Position);
-            });
-            
-            var buildingsService = gameplayContainer.Resolve<BuildingsService>();
-            buildingsService.PlaceBuilding("dummy", new Vector3Int(Random.Range(-5, 5), 0, Random.Range(-5, 5)));
-            
-            // end
-            
             _worldRootBinder.Bind(gameplayViewModelsContainer.Resolve<WorldGameplayRootViewModel>());
 
             gameplayViewModelsContainer.Resolve<UIGameplayRootViewModel>();
@@ -54,7 +38,7 @@ namespace myProject{
             
             uiScene.Bind(exitSceneSignalSubj);
             
-            Debug.Log(enterParams.LevelNumber +"   " + enterParams.SaveFileName);
+            Debug.Log($"MapId: " + enterParams.MapId);
 
             var mainMenuEnterParams = new MainMenuEnterParams("Fatality");
             var exitParams = new GameplayExitParams(mainMenuEnterParams);

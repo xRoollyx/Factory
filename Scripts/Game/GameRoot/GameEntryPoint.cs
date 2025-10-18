@@ -6,6 +6,7 @@ using myProject.Scripts.Game.GameRoot.Services;
 using myProject.Scripts.Game.MainMenu.Root;
 using myProject.Scripts.Game.Settings;
 using myProject.Scripts.Game.State.Providers;
+using myProject.Scripts.Game.State.Root.Providers;
 using myProject.Scripts.Utility;
 using R3;
 using UnityEngine;
@@ -52,7 +53,7 @@ namespace myProject.Scripts.Game.GameRoot{
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
             if (sceneName == Scenes.GAMEPLAY){
-                var enterParams = new GameplayEnterParams("ddd.save", 1);
+                var enterParams = new GameplayEnterParams(1);
                 _coroutines.StartCoroutine(LoadAndStartGameplay(enterParams));
                 return;
             }
@@ -77,7 +78,7 @@ namespace myProject.Scripts.Game.GameRoot{
             yield return LoadScene(Scenes.GAMEPLAY);
 
             yield return new WaitForSeconds(0.01f);
-
+            
             var isGameStateLoaded = false;
             _rootContainer.Resolve<IGameStateProvider>().LoadGameState().Subscribe(_ => isGameStateLoaded = true);
             yield return new WaitUntil(() => isGameStateLoaded);

@@ -35,9 +35,7 @@ namespace myProject.Scripts.Game.MainMenu.Root{
             
             Debug.Log($"Main Menu Enter Point {enterParams?.Result}");
 
-            var saveFileName = "first.save";
-            var levelNumber = Random.Range(0, 3);
-            var gameplayEnterParams = new GameplayEnterParams(saveFileName, levelNumber);
+            var gameplayEnterParams = new GameplayEnterParams(0);
             var mainMenuExitParams = new MainMenuExitParams(gameplayEnterParams);
             var exitToGameplaySceneSignal = exitSignalSubj.Select(_ => mainMenuExitParams);
 

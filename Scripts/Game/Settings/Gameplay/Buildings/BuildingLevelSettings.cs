@@ -5,6 +5,5 @@ namespace myProject.Scripts.Game.Settings.Gameplay.Buildings{
     public class BuildingLevelSettings: ScriptableObject{
         public int Level;
         public double BaseIncome;
-        public string prefabPath;
     }
 }

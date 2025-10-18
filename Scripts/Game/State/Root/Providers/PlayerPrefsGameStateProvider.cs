@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using myProject.Scripts.Game.State.Buildings;
-using myProject.Scripts.Game.State.Root;
+using myProject.Scripts.Game.State.Maps;
+using myProject.Scripts.Game.State.Providers;
 using R3;
 using UnityEngine;
 
-namespace myProject.Scripts.Game.State.Providers{
+namespace myProject.Scripts.Game.State.Root.Providers{
     public class PlayerPrefsGameStateProvider: IGameStateProvider{
         private const string GAME_STATE_KEY = nameof(GAME_STATE_KEY);
         private const string GAME_SETTINGS_STATE_KEY = nameof(GAME_SETTINGS_STATE_KEY);
@@ -78,15 +78,7 @@ namespace myProject.Scripts.Game.State.Providers{
         
         private GameStateProxy CreateGameStateFromSettings(){
             _gameStateOrigin = new GameState{
-                Buildings = new List<BuildingEntity>{
-                    /*new(){
-                        TypeId = "pro100"
-                    },
-                    new (){
-                        TypeId = "STARIK"
-                    }*/
-
-                }
+                Maps = new List<MapState>()
             };
             return new GameStateProxy(_gameStateOrigin);
         }

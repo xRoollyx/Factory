@@ -32,7 +32,7 @@ namespace myProject.Scripts.Game.Gameplay.Root.View{
 
         private void CreateBuilding(BuildingViewModel buildingViewModel){
 
-            var buildingLevel = Random.Range(1, 4);
+            var buildingLevel = buildingViewModel.Level.CurrentValue;
             var buildingType = buildingViewModel.TypeId;
             var prefabBuildingLevelPath =  $"Prefabs/Gameplay/World/Buildings/Building_{buildingType}_{buildingLevel}";
             
@@ -45,8 +45,8 @@ namespace myProject.Scripts.Game.Gameplay.Root.View{
         }
 
         private void DestroyBuilding(BuildingViewModel buildingViewModel){
-            if (_createdBuildingsMap.TryGetValue(buildingViewModel.BuildingEntityId, out var buildingBinderg)){
-                Destroy(buildingBinderg.gameObject);
+            if (_createdBuildingsMap.TryGetValue(buildingViewModel.BuildingEntityId, out var buildingBinder)){
+                Destroy(buildingBinder.gameObject);
                 _createdBuildingsMap.Remove(buildingViewModel.BuildingEntityId);
             }
         }

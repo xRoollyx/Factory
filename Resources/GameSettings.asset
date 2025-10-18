@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: Assembly-CSharp::myProject.Scripts.Game.Settings.GameSettings
   BuildingsSettings: {fileID: 11400000, guid: f646be4aab820e74aa6c1912297f7dec, type: 2}
+  MapsSettings: {fileID: 11400000, guid: 854e452d1fe075742b1341548cd98806, type: 2}
