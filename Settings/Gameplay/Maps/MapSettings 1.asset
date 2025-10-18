@@ -17,10 +17,4 @@ MonoBehaviour:
     Buildings:
     - TypeId: dummy
       Level: 1
-      Position: {x: 5, y: 0, z: 10}
-    - TypeId: dummy
-      Level: 2
-      Position: {x: 5, y: 0, z: 5}
-    - TypeId: dummy
-      Level: 3
-      Position: {x: 10, y: 0, z: 5}
+      Position: {x: 0, y: 0, z: 0}

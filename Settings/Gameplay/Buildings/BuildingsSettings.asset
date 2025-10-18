@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BuildingsSettings
   m_EditorClassIdentifier: Assembly-CSharp::myProject.Scripts.Game.Settings.Gameplay.Buildings.BuildingsSettings
   AllBuildings:
-  - {fileID: 11400000, guid: 025d3d847b9570940850c2ca1e7cd4a9, type: 2}
+  - {fileID: 11400000, guid: 6395493a2c5cdda4789f4913bc71754d, type: 2}
