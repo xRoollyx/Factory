@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using myProject.Scripts.Game.State.GameResources;
 using myProject.Scripts.Game.State.Maps;
 using myProject.Scripts.Game.State.Providers;
 using R3;
@@ -78,7 +79,17 @@ namespace myProject.Scripts.Game.State.Root.Providers{
         
         private GameStateProxy CreateGameStateFromSettings(){
             _gameStateOrigin = new GameState{
-                Maps = new List<MapState>()
+                Maps = new List<MapState>(),
+                Resources = new List<ResourceData>(){
+                    new ResourceData{
+                        ResourceType = ResourceType.SoftCurrency,
+                        Amount = 0,
+                    },
+                    new ResourceData{
+                        ResourceType = ResourceType.HardCurrency,
+                        Amount = 0,
+                    }
+                }
             };
             return new GameStateProxy(_gameStateOrigin);
         }

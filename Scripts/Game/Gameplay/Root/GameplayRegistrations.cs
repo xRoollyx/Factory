@@ -6,6 +6,7 @@ using myProject.Scripts.Game.Gameplay.Services;
 using myProject.Scripts.Game.Settings;
 using myProject.Scripts.Game.State.cmd;
 using myProject.Scripts.Game.State.Providers;
+using myProject.Scripts.Game.State.Root;
 
 
 namespace myProject.Scripts.Game.Gameplay.Root{
@@ -18,9 +19,10 @@ namespace myProject.Scripts.Game.Gameplay.Root{
             var gameSettings = gameSettingsProvider.GameSettings;
             
             var cmd = new CommandProcessor(gameStateProvider);
-            cmd.RegisterHandler(new CmdPlaceBuildingHandler(gameState));
-            cmd.RegisterHandler(new CmdCreateMapStateHandler(gameState, gameSettings));
             container.RegisterInstance<ICommandProcessor>(cmd);
+            
+            RegistryHandlers(cmd, gameState, gameSettings);
+
 
             // загружаем карту по умолчанию из настроек
             var loadingMapId = enterParams.MapId;
@@ -39,6 +41,23 @@ namespace myProject.Scripts.Game.Gameplay.Root{
                 gameSettings.BuildingsSettings, 
                 cmd)
             ).AsSingle();
+
+            container.RegisterFactory(c => new ResourcesService(
+                gameState.Resources,
+                cmd)
+            ).AsSingle();
+
+        }
+
+        private static void RegistryHandlers(
+            CommandProcessor cmd, 
+            GameStateProxy gameState, 
+            GameSettings gameSettings
+                ){
+            cmd.RegisterHandler(new CmdPlaceBuildingHandler(gameState));
+            cmd.RegisterHandler(new CmdCreateMapStateHandler(gameState, gameSettings));
+            cmd.RegisterHandler(new CmdResourcesAddHandler(gameState));
+            cmd.RegisterHandler(new CmdResourcesSpendHandler(gameState));
         }
     }
 }
